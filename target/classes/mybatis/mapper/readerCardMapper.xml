@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="readerCard">
+
+    <select id="getMatchCount" resultType="int" parameterType="map">
+       select count(*) from reader_card
+       where reader_id=#{readerId} and password=#{password}
+    </select>
+    
+    <select id="findReaderById" resultType="com.ycz.pojo.ReaderCard" parameterType="long">
+       select * from reader_card card where reader_id=#{readerId}
+    </select>
+    
+    <update id="resetPassword" parameterType="map">
+       update reader_card set password=#{password}
+       where reader_id=#{readerId}
+    </update>
+    
+    <select id="getPassword" resultType="String" parameterType="long">
+       select password from reader_card 
+       where reader_id=#{readerId}
+    </select>
+    
+    <insert id="addReaderCard" parameterType="map">
+      insert into reader_card(reader_id,username,password)
+      values(#{readerId},#{username},#{password})
+    </insert>
+    
+    <delete id="deleteReaderCard" parameterType="long">
+       delete from reader_card where reader_id=#{readerId}
+    </delete>
+</mapper>
