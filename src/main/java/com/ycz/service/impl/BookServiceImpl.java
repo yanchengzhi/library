@@ -1,6 +1,7 @@
 package com.ycz.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,23 @@ public class BookServiceImpl implements BookService {
     private BookDao bDao;
 
     @Override
-    public List<Book> queryBooksPaged(Integer page,Integer pageSize) {
-        return bDao.queryBooksPaged(page,pageSize);
+    public List<Book> queryBooksPaged(Map<String, Object> map) {
+        return bDao.queryBooksPaged(map);
     }
 
     @Override
-    public int countBooks() {
-        return bDao.countBooks();
+    public int countBooks(Map<String, Object> map) {
+        return bDao.countBooks(map);
+    }
+
+    @Override
+    public Book queryBook(long bookId) {
+        return bDao.queryBook(bookId);
+    }
+
+    @Override
+    public void addBook(Book book) {
+        bDao.addBook(book);
     }
     
 

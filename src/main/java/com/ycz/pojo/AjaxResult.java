@@ -11,9 +11,18 @@ package com.ycz.pojo;
 public class AjaxResult {
 	
 	private boolean success;
+	private Object data;
 
+    public Object getData() {
+        return data;
+    }
 
-	public boolean isSuccess() {
+    
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public boolean isSuccess() {
 		return success;
 	}
 

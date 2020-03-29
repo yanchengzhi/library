@@ -16,18 +16,20 @@ public class BookDao {
     @Autowired
     private SqlSessionTemplate sst;
 
-    public List<Book> queryBooksPaged(Integer page, Integer pageSize) {
-        Map<String, Integer> map = new HashMap<String,Integer>();
-        //¼ÆËã³östartºÍsize
-        int start = (page-1)*pageSize;
-        int size = pageSize;
-        map.put("start",start);
-        map.put("size",size);
+    public List<Book> queryBooksPaged(Map<String, Object> map) {
         return sst.selectList("books.queryBooksPaged",map);
     }
 
-    public int countBooks() {
-        return sst.selectList("books.countBooks").size();
+    public int countBooks(Map<String, Object> map) {
+        return sst.selectList("books.countBooks",map).size();
+    }
+
+    public Book queryBook(long bookId) {
+        return sst.selectOne("books.queryBook",bookId);
+    }
+
+    public void addBook(Book book) {
+        sst.insert("books.addBook",book);
     }
 
 }

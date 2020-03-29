@@ -2,6 +2,7 @@ package com.ycz.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,11 +27,31 @@ public class Book implements Serializable {
     private String ISBN;//国际标准书号
     private String introduction;//简介
     private String language;//语言
-    private BigDecimal price;//价格
+    private double price;//价格
     private Date pubDate;//出版时间
+    private String pubDateStr;
     private int classId;//书籍所属类目
     private int number;//数量
+    private String addTime;//这个字段只用来排序
     
+    public String getAddTime() {
+        return addTime;
+    }
+
+    
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
+
+    public String getPubDateStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        return sdf.format(pubDate);
+    }
+   
+    public void setPubDateStr(String pubDateStr) {
+        this.pubDateStr = pubDateStr;
+    }
+  
     public long getBookId() {
         return bookId;
     }
@@ -87,11 +108,11 @@ public class Book implements Serializable {
         this.language = language;
     }
     
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
     
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     

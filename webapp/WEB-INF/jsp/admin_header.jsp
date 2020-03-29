@@ -15,9 +15,9 @@
 						class="caret"></b>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="${APP_PATH}/book/queryBooksPaged">全部图书</a></li>
+						<li><a href="${APP_PATH}/book/adminBook">全部图书</a></li>
 						<li class="divider"></li>
-						<li><a href="book_add.html">增加图书</a></li>
+						<li><a href="${APP_PATH}/book/addBook">增加图书</a></li>
 					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" style="color: white"> 读者管理 <b

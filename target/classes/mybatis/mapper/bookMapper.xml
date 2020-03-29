@@ -6,10 +6,48 @@
     <select id="queryBooksPaged" resultType="com.ycz.pojo.Book" parameterType="map">
        select book_id,name,author,publish,ISBN,introduction,language,
        price,pub_date,class_id,number from book_info 
+       <where>
+          <if test="queryText!=null">
+             and name like concat('%',#{queryText},'%')
+          </if>
+          <if test="queryText!=null">
+             or author like concat('%',#{queryText},'%')
+          </if>
+          <if test="queryText!=null">
+             or publish like concat('%',#{queryText},'%')
+          </if>
+       </where>
+       order by add_time desc 
        limit #{start},#{size}
     </select>
     
-    <select id="countBooks" resultType="com.ycz.pojo.Book">
-       select count(*) from book_info
+    <select id="countBooks" resultType="com.ycz.pojo.Book" parameterType="map">
+       select * from book_info
+       <where>
+          <if test="queryText!=null">
+             and name like concat('%',#{queryText},'%')
+          </if>          
+          <if test="queryText!=null">
+             or author like concat('%',#{queryText},'%')
+          </if>
+          <if test="queryText!=null">
+             or publish like concat('%',#{queryText},'%')
+          </if>
+       </where>
     </select>
+    
+    <!-- 按照id查询书籍 -->
+    <select id="queryBook" resultType="com.ycz.pojo.Book" parameterType="long">
+       select * from book_info where book_id=#{bookId}
+    </select>
+    
+    <!-- 添加书籍 -->
+    <insert id="addBook" parameterType="com.ycz.pojo.Book">
+       insert into book_info(
+       name,author,publish,ISBN,introduction,language,price,pub_date,class_id,number,add_time
+       ) values(
+       #{name},#{author},#{publish},#{ISBN},#{introduction},
+       #{language},#{price},#{pubDate},#{classId},#{number},#{addTime}
+       )
+    </insert>
 </mapper>

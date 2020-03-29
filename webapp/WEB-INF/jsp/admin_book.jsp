@@ -11,19 +11,16 @@
 	style="background-repeat: no-repeat; background-size: 100% 100%; background-attachment: fixed;">
 
 	<div id="header">
-	   <jsp:include page="admin_header.jsp"></jsp:include>
+		<jsp:include page="admin_header.jsp"></jsp:include>
 	</div>
 	<div style="padding: 70px 550px 10px">
-		<form method="post" action="querybook.html" class="form-inline"
-			id="searchform">
 			<div class="input-group">
-				<input type="text" placeholder="输入图书名" class="form-control"
-					id="search" name="searchWord" class="form-control"> <span
-					class="input-group-btn"> <input type="submit" value="搜索"
-					class="btn btn-default">
+				<input type="text" placeholder="输入关键字" class="form-control"
+					id="queryText" name="queryText" class="form-control"> <span
+					class="input-group-btn"> 
+					<input type="submit" value="搜索" id="search" class="btn btn-default">
 				</span>
 			</div>
-		</form>
 
 	</div>
 	<div style="position: relative; top: 10%">
@@ -50,44 +47,115 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th style="text-align:center;">书名</th>
-						<th style="text-align:center;">作者</th>
-						<th style="text-align:center;">出版社</th>
-						<th style="text-align:center;">ISBN</th>
-						<th style="text-align:center;">价格</th>
-						<th style="text-align:center;">剩余数量</th>
-						<th style="text-align:center;">详情</th>
-						<th style="text-align:center;">编辑</th>
-						<th style="text-align:center;">删除</th>
+						<th style="text-align: center;">书名</th>
+						<th style="text-align: center;">作者</th>
+						<th style="text-align: center;">出版社</th>
+						<th style="text-align: center;">ISBN</th>
+						<th style="text-align: center;">价格</th>
+						<th style="text-align: center;">剩余数量</th>
+						<th style="text-align: center;">详情</th>
+						<th style="text-align: center;">编辑</th>
+						<th style="text-align: center;">删除</th>
 					</tr>
 				</thead>
-				<tbody style="text-align:center;">
-				   <c:forEach items="${books}" var="book">
-				      <tr>
-				         <td>${book.name}</td>
-				         <td>${book.author}</td>
-				         <td>${book.publish}</td>
-				         <td>${book.ISBN}</td>
-				         <td>${book.price}</td>
-				         <td>${book.number}</td>
-				         <td>
-				         
-				         </td>
-				         <td>
-				           <a href="#">
-				           <button type="button" class="btn btn-primary btn-xs">编辑</button>
-				           </a>
-				         </td>
-				         <td>
-				           <a href="#">
-				           <button type="button" class="btn btn-danger btn-xs">删除</button>
-				           </a>
-				         </td>
-				      </tr>
-				   </c:forEach>
+				<tbody style="text-align: center;" id="userData">
+			
 				</tbody>
+				<!-- 翻页 -->
+				<tfoot>
+					<tr>
+						<td colspan="6" align="right">
+							<ul class="pagination">
+							</ul>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>
+	<script type="text/javascript" src="${APP_PATH}/static/layer/layer.js"></script>
+	<script type="text/javascript">
+	queryPaged(1);//显示第一页
+	//模糊查询
+	var likeFlag = false;
+	$('#search').click(function(){
+		var queryText = $('#queryText').val();//获取文本框内容
+		if(queryText==""){//为空时关闭模糊查询
+			likeFlag = false;
+		}else{//有内容时开启模糊查询
+			likeFlag = true;
+		}
+		queryPaged(1);
+	});
+	//异步分页查询
+	function queryPaged(pageNum){
+		var loadingIndex = null;
+		var jsonData = {
+			"page":pageNum,
+			"pageSize":5
+		};
+		if(likeFlag==true){
+			jsonData.queryText = $('#queryText').val();
+		}
+		$.ajax({
+			url:"${APP_PATH}/book/queryBooksPaged",
+		    type:"POST",
+		    data:jsonData,
+		    beforeSend:function(){
+		    	loadingIndex = layer.msg("处理中",{icon:16});
+		    },
+		    success:function(result){
+		    	layer.close(loadingIndex);//关闭组件
+		    	if(result.success){
+		    		//局部刷新页面
+		    		var tableContext="";
+		    		var pageContent="";
+		    		//获取后台数据
+		    		var bookPage = result.data;
+		    	    var books = bookPage.datas;
+		    	    //遍历并拼接字符串
+		    	    $.each(books,function(i,book){
+		    	    	tableContext+='<tr>';
+		    	    	tableContext+='<td>'+book.name+'</td>';
+		    	    	tableContext+='<td>'+book.author+'</td>';
+		    	    	tableContext+='<td>'+book.publish+'</td>';
+		    	    	tableContext+='<td>'+book.isbn+'</td>';
+		    	    	tableContext+='<td>'+book.price+'</td>';
+		    	    	tableContext+='<td>'+book.number+'</td>';
+		    	    	tableContext+='<td><a href="${APP_PATH}/book/adminBookDetail?bookId='+book.bookId+'"><button type="button" class="btn btn-success btn-xs">详情</button></a></td>';
+						tableContext+='<td><a href="#"><button type="button" class="btn btn-primary btn-xs">编辑</button></a></td>';
+						tableContext+='<td><a href="#"><button type="button" class="btn btn-danger btn-xs">删除</button></a></td>';
+						tableContext+='</tr>';
+		    	    });
+		    	    $('#userData').html(tableContext);//添加到表主体中
+		    	    if(pageNum==1){
+		    	    	pageContent += '<li class="disabled"><a href="#">上一页</a></li>';
+		    	    }else{
+		    	    	pageContent += '<li><a href="#" onclick="queryPaged('+(pageNum-1)+')">上一页</a></li>';
+		    	    }
+					//显示页码数
+					for (var i = 1; i <= bookPage.maxPage; i++) {
+						//添加当前页样式  		    
+						if (i == pageNum) {
+							pageContent += '<li class="active"><a href="#">'+i+'</a></li>';
+						} else {
+							pageContent += '<li><a href="#" onclick="queryPaged('+i+')">' + i + '</a></li>';
+						}
+					}
+		    	    if(pageNum==bookPage.maxPage){
+		    	    	pageContent += '<li class="disabled"><a href="#">下一页</a></li>';
+		    	    }else{
+		    	    	pageContent += '<li><a href="#" onclick="queryPaged('+(pageNum+1)+')">下一页</a></li>';
+		    	    }
+		    	    $('.pagination').html(pageContent);
+		    	}else{
+		    	   layer.msg("查询失败！",{time:3000,icon:5,shift:5},function(){
+		    		   
+		    	   });
+		    	}
+		    }
+		});
+	 }
+	</script>
 </body>
 </html>
