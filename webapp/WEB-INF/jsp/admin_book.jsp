@@ -58,7 +58,7 @@
 						<th style="text-align: center;">删除</th>
 					</tr>
 				</thead>
-				<tbody style="text-align: center;" id="userData">
+				<tbody style="text-align: center;" id="bookData">
 			
 				</tbody>
 				<!-- 翻页 -->
@@ -123,11 +123,11 @@
 		    	    	tableContext+='<td>'+book.price+'</td>';
 		    	    	tableContext+='<td>'+book.number+'</td>';
 		    	    	tableContext+='<td><a href="${APP_PATH}/book/adminBookDetail?bookId='+book.bookId+'"><button type="button" class="btn btn-success btn-xs">详情</button></a></td>';
-						tableContext+='<td><a href="#"><button type="button" class="btn btn-primary btn-xs">编辑</button></a></td>';
-						tableContext+='<td><a href="#"><button type="button" class="btn btn-danger btn-xs">删除</button></a></td>';
+						tableContext+='<td><a href="${APP_PATH}/book/adminEditBook?bookId='+book.bookId+'"><button type="button" class="btn btn-primary btn-xs">编辑</button></a></td>';
+						tableContext+='<td><a href="#"><button type="button" onclick="deleteBook('+book.bookId+',\''+book.name+'\')" class="btn btn-danger btn-xs">删除</button></a></td>';
 						tableContext+='</tr>';
 		    	    });
-		    	    $('#userData').html(tableContext);//添加到表主体中
+		    	    $('#bookData').html(tableContext);//添加到表主体中
 		    	    if(pageNum==1){
 		    	    	pageContent += '<li class="disabled"><a href="#">上一页</a></li>';
 		    	    }else{
@@ -156,6 +156,34 @@
 		    }
 		});
 	 }
+	//删除书籍
+	function deleteBook(bookId,name){
+		layer.confirm("删除书籍《"+name+"》，是否继续？",{icon:3,title:"提示"},function(cindex){
+			$.ajax({
+				url:"${APP_PATH}/book/deleteBook",
+				type:"POST",
+				data:{
+					"bookId":bookId
+				},
+				success:function(result){
+					if(result.success){
+						layer.msg("书籍删除成功！",{time:3000,icon:6,shift:5},function(){
+							
+						});
+						window.location.href="${APP_PATH}/book/adminBook";
+					}else{
+						layer.msg("书籍删除失败！",{time:3000,icon:5,shift:5},function(){
+							
+						});
+					}
+				}
+			});
+			layer.close(cindex);
+		},function(cindex){
+			layer.close(cindex);
+		});
+		
+	}
 	</script>
 </body>
 </html>

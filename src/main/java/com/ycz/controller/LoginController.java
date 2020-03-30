@@ -110,5 +110,15 @@ public class LoginController {
     public String adminBook() {
         return "admin_book";
     }
+    
+    /**
+     * 
+     * @Description (ÌøÍùÃÜÂëĞŞ¸ÄÒ³Ãæ)
+     * @return
+     */
+    @RequestMapping("repass")
+    public String repass() {
+        return "admin_repass";
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.ycz.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +29,14 @@ public class BookDao {
 
     public void addBook(Book book) {
         sst.insert("books.addBook",book);
+    }
+
+    public void editBook(Book book) {
+        sst.update("books.editBook",book);      
+    }
+
+    public void deleteBook(long bookId) {
+        sst.delete("books.deleteBook",bookId);
     }
 
 }

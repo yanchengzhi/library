@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="readers">
+    <select id="countReaders" resultType="com.ycz.pojo.ReaderInfo">
+       select reader_id,name,sex,birth,address,phone from reader_info
+      <where>
+          <if test="queryText!=null">
+             and name like concat('%',#{queryText},'%')
+          </if>
+           <if test="queryText!=null">
+             or sex = #{queryText}
+          </if>
+           <if test="queryText!=null">
+             or address like concat('%',#{queryText},'%')
+          </if>
+       </where>
+    </select>
+    
+    <select id="queryReadersPaged" resultType="com.ycz.pojo.ReaderInfo" parameterType="map">
+       select reader_id,name,sex,birth,address,phone from reader_info
+       <where>
+          <if test="queryText!=null">
+             and name like concat('%',#{queryText},'%')
+          </if>
+           <if test="queryText!=null">
+             or sex = #{queryText}
+          </if>
+           <if test="queryText!=null">
+             or address like concat('%',#{queryText},'%')
+          </if>
+       </where>
+       order by add_time desc
+        limit #{start},#{size}
+    </select>
+    
+    <!-- 按照ID查询 -->
+    <select id="queryReader" resultType="com.ycz.pojo.ReaderInfo" parameterType="long">
+       select * from reader_info where reader_id=#{readerId}
+    </select>
+    
+    <!-- 修改 -->
+    <update id="editReader" parameterType="com.ycz.pojo.ReaderInfo">
+       update reader_info set name=#{name},sex=#{sex},birth=#{birth},
+       address=#{address},phone=#{phone} where reader_id=#{readerId}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="deleteReader" parameterType="long">
+      delete from reader_info where reader_id=#{readerId}
+    </delete>
+    
+    <!-- 同时删除账号信息 -->
+    <delete id="deleteReaderCard" parameterType="long">
+      delete from reader_card where reader_id=#{readerId}
+    </delete>
+    
+    <!-- 添加读者 -->
+    <insert id="addReaderInfo" parameterType="com.ycz.pojo.ReaderInfo">
+       insert into reader_info (
+       name,sex,birth,address,phone,add_time) values (
+       #{name},#{sex},#{birth},#{address},#{phone},#{addTime}
+       )
+    </insert>
+    
+    <!-- 同时添加读者账号信息 -->
+    <insert id="addReaderCard" parameterType="com.ycz.pojo.ReaderCard">
+        insert into reader_card (username,password) values(#{username},#{password})
+    </insert>
+</mapper>

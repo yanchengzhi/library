@@ -35,6 +35,16 @@ public class BookServiceImpl implements BookService {
     public void addBook(Book book) {
         bDao.addBook(book);
     }
+
+    @Override
+    public void editBook(Book book) {
+        bDao.editBook(book);
+    }
+
+    @Override
+    public void deleteBook(long bookId) {
+        bDao.deleteBook(bookId);
+    }
     
 
 }

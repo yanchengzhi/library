@@ -2,8 +2,11 @@ package com.ycz.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 
 /**
  * 
@@ -116,7 +119,7 @@ public class Book implements Serializable {
         this.price = price;
     }
     
-    public Date getPubDate() {
+    public Date getPubDate(){
         return pubDate;
     }
     

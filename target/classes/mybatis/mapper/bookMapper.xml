@@ -26,7 +26,7 @@
        <where>
           <if test="queryText!=null">
              and name like concat('%',#{queryText},'%')
-          </if>          
+          </if>
           <if test="queryText!=null">
              or author like concat('%',#{queryText},'%')
           </if>
@@ -50,4 +50,18 @@
        #{language},#{price},#{pubDate},#{classId},#{number},#{addTime}
        )
     </insert>
+    
+    <!-- 修改书籍信息 -->
+    <update id="editBook" parameterType="com.ycz.pojo.Book">
+      update book_info
+      set name=#{name},author=#{author},publish=#{publish},ISBN=#{ISBN},
+      introduction=#{introduction},language=#{language},price=#{price},
+      pub_date=#{pubDate},class_id=#{classId},number=#{number}
+      where book_id=#{bookId}
+    </update>
+    
+    <!-- 删除书籍 -->
+    <delete id="deleteBook" parameterType="long">
+      delete from book_info where book_id=#{bookId}
+    </delete>
 </mapper>

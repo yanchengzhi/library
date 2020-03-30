@@ -1,6 +1,7 @@
 package com.ycz.pojo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -22,8 +23,29 @@ public class ReaderInfo implements Serializable {
     private String name;//读者姓名
     private String sex;//读者性别
     private Date birth;//读者出生日期
+    private String birthStr;
     private String address;//籍贯
     private String phone;//电话号码
+    private String addTime;//这个字段只用来排序
+    
+    
+    public String getAddTime() {
+        return addTime;
+    }
+
+    
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
+
+    public String getBirthStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(birth);
+    }
+  
+    public void setBirthStr(String birthStr) {
+        this.birthStr = birthStr;
+    }
     
     public long getReaderId() {
         return readerId;
