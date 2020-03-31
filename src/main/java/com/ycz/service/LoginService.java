@@ -11,7 +11,7 @@ public interface LoginService {
     
     public String getAdminPassword(long id);
     
-    public boolean reAdminPass(long id,String password);
+    public void reAdminPass(long id,String password);
     
     public boolean hasMatchReader(long readerId,String password);
     
@@ -24,5 +24,6 @@ public interface LoginService {
     public int addReaderCard(ReaderInfo rInfo,String password);
     
     public int deleteReaderCard(long readerId);
+
 
 }

@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ycz.pojo.Admin;
+import com.ycz.pojo.AjaxResult;
 import com.ycz.pojo.ReaderCard;
 import com.ycz.service.LoginService;
 
@@ -117,8 +119,22 @@ public class LoginController {
      * @return
      */
     @RequestMapping("repass")
-    public String repass() {
+    public String repass(long id) {
         return "admin_repass";
+    }
+    
+    @ResponseBody
+    @RequestMapping("repassDo")
+    public AjaxResult repassDo(long id,String password) {
+        AjaxResult result = new AjaxResult();
+        try {
+            service.reAdminPass(id, password);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+        return result;
     }
 
 }

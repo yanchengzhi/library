@@ -34,8 +34,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public boolean reAdminPass(long id, String password) {
-        return aDao.resetPassword(id, password)>0;
+    public void reAdminPass(long id, String password) {
+        aDao.resetPassword(id, password);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.ycz.pojo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -23,7 +24,35 @@ public class Lend implements Serializable {
     private long readerId;//读者ID
     private Date lendDate;//借出日期
     private Date backDate;//归还日期
+    private String lendDateStr;
+    private String backDateStr;
     
+    
+    public String getLendDateStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(lendDate);
+    }
+
+    
+    public void setLendDateStr(String lendDateStr) {
+        this.lendDateStr = lendDateStr;
+    }
+
+    
+    public String getBackDateStr() {
+        if(backDate!=null) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(backDate);
+        }else {
+            return "未归还";
+        }
+    }
+
+    
+    public void setBackDateStr(String backDateStr) {
+        this.backDateStr = backDateStr;
+    }
+
     public long getSerNum() {
         return serNum;
     }

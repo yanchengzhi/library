@@ -19,7 +19,8 @@
 		select password from admin where id=#{id}
 	</select>
 	
-	<update id="resetPassword">
+	<!-- 重置密码 -->
+	<update id="resetPassword" parameterType="map">
 	   update admin set password=#{password}
 	   where id=#{id}
 	</update>

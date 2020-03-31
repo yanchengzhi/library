@@ -3,6 +3,7 @@ package com.ycz.pojo;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -27,8 +28,17 @@ public class ReaderInfo implements Serializable {
     private String address;//籍贯
     private String phone;//电话号码
     private String addTime;//这个字段只用来排序
+    private List<Book> books;   
     
-    
+    public List<Book> getBooks() {
+        return books;
+    }
+  
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+
     public String getAddTime() {
         return addTime;
     }

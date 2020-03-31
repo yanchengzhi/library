@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ycz.pojo.Book;
 import com.ycz.pojo.ReaderCard;
 import com.ycz.pojo.ReaderInfo;
 
@@ -46,6 +47,14 @@ public class ReaderDao {
 
     public void deleteReaderCard(long readerId) {
         sst.delete("readers.deleteReaderCard",readerId); 
+    }
+
+    public int countBooksReader(Map<String, Object> map) {
+        return sst.selectList("readers.countBooksReader",map).size();
+    }
+
+    public List<Book> queryBooksReader(Map<String, Object> map) {
+        return sst.selectList("readers.queryBooksReader",map);
     }
 
 }

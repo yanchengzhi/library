@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lends">
+
+    <select id="countLends" resultType="com.ycz.pojo.Lend" parameterType="map">
+       select ser_num,book_id,reader_id,lend_date,back_date from lend_list
+       <where>
+          <if test="queryText!=null">
+             and reader_id=#{readerId}
+          </if>
+       </where>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="queryLendPaged" resultType="com.ycz.pojo.Lend" parameterType="map">
+        select ser_num,book_id,reader_id,lend_date,back_date from lend_list
+       <where>
+          <if test="queryText!=null">
+             and reader_id=#{readerId}
+          </if>
+       </where>
+       limit #{start},#{size}
+    </select>
+    
+    <!-- 删除 -->
+    <delete id="deleteLend" parameterType="long">
+       delete from lend_list where ser_num=#{serNum}
+    </delete>
+</mapper>

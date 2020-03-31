@@ -43,17 +43,99 @@ background-attachment: fixed;">
                     <input type="password" id="oldPasswd" name="oldPasswd" placeholder="输入旧密码" class="form-control"/><br>
                     <input type="password" id="newPasswd" name="newPasswd" placeholder="输入新密码"  class="form-control"/><br>
                     <input type="password" id="reNewPasswd" name="reNewPasswd" placeholder="确认新密码" class="form-control"/>
-                    <em id="tishi" style="color: red"></em>
+                    <em id="tip" style="color: red;font-size:15px;font-weight:bold;"></em>
                     <br/>                 
                 </div>
                 <br>
                 <div style="text-align:right">
-                <button type="button" value="" style="text-align:right" class="btn btn-primary">保存</button>
+                <button type="button" value="" id="save_btn" style="text-align:right" class="btn btn-primary">保存</button>
                 </div>
         </div>
     </div>
 </div>
+<script src="${APP_PATH}/static/layer/layer.js"></script>
 <script>
+    //验证旧密码
+    var pass = "${currentUser.password}";
+    $('#oldPasswd').mouseout(
+       function(){
+    	 var oldPasswd = $('#oldPasswd').val();
+    	   if(oldPasswd!=""){
+    		   if(pass!=oldPasswd){
+    	    	   $('#tip').text("原密码输入有误！");
+    		   }else{
+    			   $('#tip').text("");
+    		   }
+    	   }
+       }		
+    );
+    
+    $('#reNewPasswd').mouseout(
+ 	       function(){
+ 	    	 var newPass = $('#newPasswd').val();
+ 	    	 var reNewPass = $('#reNewPasswd').val();
+ 	    	   if(newPass!="" && reNewPass!=""){
+ 	    		   if(newPass!=reNewPass){
+ 	    	    	   $('#tip').text("两次设置新密码不一致！");
+ 	    		   }else{
+ 	    			   $('#tip').text("");
+ 	    		   }
+ 	    	   }
+ 	       }		
+ 	    );
+    
+    $('#save_btn').click(function(){
+    	var oldPass = $('#oldPasswd').val();
+    	var newPass = $('#newPasswd').val();
+    	var reNewPass = $('#reNewPasswd').val();
+    	if(oldPass==""){
+    		layer.msg("请输入原密码！",{time:3000,icon:0,shift:5},function(){
+    			
+    		});
+    		return;
+    	}
+    	if(newPass==""){
+    		layer.msg("请设置新密码！",{time:3000,icon:0,shift:5},function(){
+    			
+    		});
+    		return;
+    	}
+    	if(reNewPass==""){
+    		layer.msg("请确认新密码！",{time:3000,icon:0,shift:5},function(){
+    			
+    		});
+    		return;
+    	}
+    	
+    	if(newPass!=reNewPass){
+    		layer.msg("两次密码设置不一致！",{time:3000,icon:0,shift:5},function(){
+    			
+    		});
+    		return;
+    	}
+    	
+    	$.ajax({
+    		url:"${APP_PATH}/login/repassDo",
+    		type:"POST",
+    		data:{
+    			"id":"${currentUser.id}",
+    			"password":newPass
+    		},
+    		success:function(result){
+    			if(result){
+    				layer.msg("新密码设置成功，请重新登录！",{time:10000,icon:6,shift:5},function(){
+    					
+    				});
+    				window.location.href="${APP_PATH}/login/login";
+    			}
+    			else{
+    				layer.msg("新密码设置失败！",{time:3000,icon:5,shift:5},function(){
+    					
+    				});
+    			}
+    		}
+    	});
+    });
 </script>
 </body>
 </html>

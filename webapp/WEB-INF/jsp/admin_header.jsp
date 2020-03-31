@@ -33,10 +33,10 @@
 						class="caret"></b>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="lendlist.html">借还日志</a></li>
+						<li><a href="${APP_PATH}/lend/lendList">借还日志</a></li>
 					</ul></li>
-				<li><a href="${APP_PATH}/login/repass" style="color: white">
-						密码修改 </a></li>
+				<li><a href="${APP_PATH}/login/repass?id=${currentUser.id}" style="color: white">
+						密码修改</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#" style="color: white">【${currentUser.username}】
