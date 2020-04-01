@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ycz.pojo.AjaxResult;
 import com.ycz.pojo.Lend;
@@ -100,6 +101,14 @@ public class LendController {
             result.setSuccess(false);
         }
         return result;
+    }
+    
+    @RequestMapping("readerLendList")
+    public ModelAndView readerLendList(long readerId) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("readerId",readerId);
+        mav.setViewName("reader_lend_list");
+        return mav;
     }
 
 }

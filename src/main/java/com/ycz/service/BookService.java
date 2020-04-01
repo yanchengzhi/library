@@ -19,5 +19,7 @@ public interface BookService {
 
     void deleteBook(long bookId);
 
+    List<Book> queryAllBooks();
+
 
 }

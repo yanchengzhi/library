@@ -64,4 +64,10 @@
     <delete id="deleteBook" parameterType="long">
       delete from book_info where book_id=#{bookId}
     </delete>
+    
+    <!-- 查询所有书籍 -->
+    <select id="queryAllBooks" resultType="com.ycz.pojo.Book">
+       select book_id,name,author,publish,ISBN,introduction,language,
+       price,pub_date,class_id,number from book_info 
+    </select>
 </mapper>

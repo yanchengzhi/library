@@ -28,4 +28,14 @@
     <delete id="deleteLend" parameterType="long">
        delete from lend_list where ser_num=#{serNum}
     </delete>
+    
+    <!-- 查询不同读者借阅的所有书籍ID -->
+    <select id="queryAllBookId" resultType="Long" parameterType="long">
+       select book_id from lend_list where reader_id=#{readerId}
+    </select>
+    
+    <!-- 查询读者对应的借还记录 -->
+    <select id="queryAllLends" resultType="com.ycz.pojo.Lend" parameterType="long">
+      select book_id,lend_date,back_date from lend_list where reader_id=#{readerId}
+    </select>
 </mapper>

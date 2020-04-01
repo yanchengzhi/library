@@ -45,6 +45,11 @@ public class BookServiceImpl implements BookService {
     public void deleteBook(long bookId) {
         bDao.deleteBook(bookId);
     }
+
+    @Override
+    public List<Book> queryAllBooks() {
+        return bDao.queryAllBooks();
+    }
     
 
 }

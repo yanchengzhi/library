@@ -1,5 +1,6 @@
 package com.ycz.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,14 @@ public class LendDao {
 
     public void deleteLend(long serNum) {
         sst.delete("lends.deleteLend",serNum);
+    }
+
+    public List<Long> queryAllBookId(long readerId) {
+        return sst.selectList("lends.queryAllBookId",readerId);
+    }
+
+    public List<Lend> queryAllLends(long readerId) {
+        return sst.selectList("lends.queryAllLends",readerId);
     }
 
 }

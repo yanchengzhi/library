@@ -14,7 +14,7 @@ background-attachment: fixed;">
 <div id="header">
    <jsp:include page="admin_header.jsp"></jsp:include>
 </div>
-	<div style="padding: 70px 550px 10px">
+	<div style="padding: 100px 550px 10px">
 			<div class="input-group">
 				<input type="text" placeholder="输入关键字" class="form-control"
 					id="queryText" name="queryText" class="form-control"> <span
@@ -51,7 +51,7 @@ background-attachment: fixed;">
             <!-- 翻页 -->
 		    <tfoot>
 					<tr>
-						<td colspan="6" align="right">
+						<td colspan="8" align="right">
 							<ul class="pagination">
 							</ul>
 						</td>
@@ -170,8 +170,5 @@ background-attachment: fixed;">
 		
 	}
 	</script>
-</body>
-</html>
-
 </body>
 </html>

@@ -25,8 +25,5 @@ public interface ReaderService {
 
     void deleteReaderCard(long readerId);
 
-    int countBooksReader(Map<String, Object> map);
-
-    List<Book> queryBooksReader(Map<String, Object> map);
 
 }

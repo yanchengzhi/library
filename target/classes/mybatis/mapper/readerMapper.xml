@@ -69,32 +69,4 @@
         insert into reader_card (username,password) values(#{username},#{password})
     </insert>
     
-    <!-- 统计指定读者借阅的书籍数量 -->
-    <select id="countBooksReader" resultType="com.ycz.pojo.Book" parameterType="map">
-       select ser_num,book_id,reader_id,lend_date,back_date from lend_list
-       where reader_id=#{readerId}
-    </select>
-    
-    <!-- 分页查询，多表连接 -->
-    <select id="queryBooksReader" resultMap="reader_book" statementType="PREPARED">
-        select l.reader_id lrid,b.name bname,b.author bauthor,b.publish bpublish,b.ISBN bISBN,
-        b.price bprice,b.number bnumber from book_info b
-        inner join lend_list l 
-        on b.book_id = l.book_id
-        where l.reader_id = #{readerId}
-        limit #{start},#{size}
-    </select>
-    
-    <!-- 一对一映射 -->
-    <resultMap type="com.ycz.pojo.Lend" id="reader_book" autoMapping="false">
-       <id column="lrid" property="readerId" javaType="long" jdbcType="BIGINT"/>
-       <collection property="books" ofType="com.ycz.pojo.Book" autoMapping="false">
-          <result column="bname" property="name" javaType="string" jdbcType="VARCHAR"/>
-          <result column="bauthor" property="author" javaType="string" jdbcType="VARCHAR"/>
-          <result column="bpublish" property="publish" javaType="string" jdbcType="VARCHAR"/>
-          <result column="bISBN" property="ISBN" javaType="string" jdbcType="VARCHAR"/>
-          <result column="bprice" property="price" javaType="double" jdbcType="DOUBLE"/>
-          <result column="bnumber" property="number" javaType="int" jdbcType="INTEGER"/>
-       </collection>
-    </resultMap>
 </mapper>

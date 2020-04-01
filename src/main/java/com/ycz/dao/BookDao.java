@@ -39,4 +39,8 @@ public class BookDao {
         sst.delete("books.deleteBook",bookId);
     }
 
+    public List<Book> queryAllBooks() {
+        return sst.selectList("books.queryAllBooks");
+    }
+
 }

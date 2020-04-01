@@ -64,7 +64,7 @@
 				<!-- 翻页 -->
 				<tfoot>
 					<tr>
-						<td colspan="6" align="right">
+						<td colspan="9" align="right">
 							<ul class="pagination">
 							</ul>
 						</td>

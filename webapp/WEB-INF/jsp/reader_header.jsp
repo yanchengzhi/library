@@ -10,8 +10,8 @@
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
 				<li class="active"><a href="${APP_PATH}/reader/readerBooks"> 图书查询 </a></li>
-				<li><a href="reader_info.html"> 个人信息 </a></li>
-				<li><a href="mylend.html"> 我的借还 </a></li>
+				<li><a href="${APP_PATH}/reader/readerInfo?readerId=${currentUser.readerId}"> 个人信息 </a></li>
+				<li><a href="${APP_PATH}/lend/readerLendList?readerId=${currentUser.readerId}"> 我的借还 </a></li>
 				<li><a href="reader_repasswd.html"> 密码修改 </a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

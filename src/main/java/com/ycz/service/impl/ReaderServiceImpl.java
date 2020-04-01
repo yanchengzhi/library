@@ -58,14 +58,4 @@ public class ReaderServiceImpl implements ReaderService {
         rDao.deleteReaderCard(readerId);
     }
 
-    @Override
-    public int countBooksReader(Map<String, Object> map) {
-        return rDao.countBooksReader(map);
-    }
-
-    @Override
-    public List<Book> queryBooksReader(Map<String, Object> map) {
-        return rDao.queryBooksReader(map);
-    }
-
 }

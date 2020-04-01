@@ -13,4 +13,8 @@ public interface LendService {
 
     void deleteLend(long serNum);
 
+    List<Long> queryAllBookId(long readerId);
+
+    List<Lend> queryAllLends(long readerId);
+
 }

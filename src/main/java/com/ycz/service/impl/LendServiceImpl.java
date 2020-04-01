@@ -31,4 +31,15 @@ public class LendServiceImpl implements LendService {
         lDao.deleteLend(serNum);
     }
 
+    @Override
+    public List<Long> queryAllBookId(long readerId) {
+        return lDao.queryAllBookId(readerId);
+    }
+
+    @Override
+    public List<Lend> queryAllLends(long readerId) {
+        return lDao.queryAllLends(readerId);
+    }
+
+
 }

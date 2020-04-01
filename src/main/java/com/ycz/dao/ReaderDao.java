@@ -49,12 +49,4 @@ public class ReaderDao {
         sst.delete("readers.deleteReaderCard",readerId); 
     }
 
-    public int countBooksReader(Map<String, Object> map) {
-        return sst.selectList("readers.countBooksReader",map).size();
-    }
-
-    public List<Book> queryBooksReader(Map<String, Object> map) {
-        return sst.selectList("readers.queryBooksReader",map);
-    }
-
 }
