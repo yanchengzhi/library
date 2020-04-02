@@ -71,6 +71,7 @@
 		</div>
 	</div>
 <script type="text/javascript">
+    $(function(){
      //提示账号格式信息
 	 $('#id').keyup(
 	   function(){
@@ -80,7 +81,7 @@
 			   $('#info').text("");
 		   }
 	   }		 
-	 )
+	 );
 	 
 	 //记住登录信息
 	 function rememberLogin(id,password,checked){
@@ -159,6 +160,7 @@
     	 });
     	 
      });
+    });
 </script>
 </body>
 </html>

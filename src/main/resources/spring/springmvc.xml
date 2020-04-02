@@ -29,9 +29,12 @@
            <!-- 配置拦截路径 -->
            <mvc:mapping path="/**"/>
            <!-- 配置放行的路径 -->
-           <mvc:exclude-mapping path="/static/*"/>
-           <mvc:exclude-mapping path="/login/login*"/>
-           <mvc:exclude-mapping path="/login/loginCheck*"/>
+           <mvc:exclude-mapping path="/static/css/**"/>
+           <mvc:exclude-mapping path="/static/img/**"/>
+           <mvc:exclude-mapping path="/static/js/**"/>
+           <mvc:exclude-mapping path="/static/layer/**"/>
+           <mvc:exclude-mapping path="/login/login"/>
+           <mvc:exclude-mapping path="/login/loginCheck"/>
            <bean class="com.ycz.web.LoginInterceptor"></bean>
        </mvc:interceptor>
     </mvc:interceptors>

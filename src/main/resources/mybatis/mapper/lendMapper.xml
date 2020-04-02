@@ -8,7 +8,7 @@
        select ser_num,book_id,reader_id,lend_date,back_date from lend_list
        <where>
           <if test="queryText!=null">
-             and reader_id=#{readerId}
+             and reader_id like concat('%',#{queryText},'%')
           </if>
        </where>
     </select>
@@ -18,7 +18,7 @@
         select ser_num,book_id,reader_id,lend_date,back_date from lend_list
        <where>
           <if test="queryText!=null">
-             and reader_id=#{readerId}
+              and reader_id like concat('%',#{queryText},'%')
           </if>
        </where>
        limit #{start},#{size}
