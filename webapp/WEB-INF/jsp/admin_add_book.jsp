@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>图书信息添加</title>
     <link rel="stylesheet" href="${APP_PATH}/static/css/bootstrap.min.css">
     <script src="${APP_PATH}/static/js/jquery-3.2.1.js"></script>
