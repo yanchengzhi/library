@@ -31,4 +31,9 @@
     <delete id="deleteReaderCard" parameterType="long">
        delete from reader_card where reader_id=#{readerId}
     </delete>
+    
+    <!-- 更新用户名 -->
+    <update id="editReaderCard" parameterType="map">
+       update reader_card set username=#{username} where reader_id=#{readerId}
+    </update>
 </mapper>

@@ -70,4 +70,17 @@
        select book_id,name,author,publish,ISBN,introduction,language,
        price,pub_date,class_id,number from book_info 
     </select>
+    
+    <select id="queryBookLends" resultType="com.ycz.pojo.Lend" parameterType="long">
+       select * from lend_list where reader_id=#{readerId} and back_date is null
+    </select>
+    
+    <!-- 读者归还书籍，剩余数量加1 -->
+    <update id="bookNumAddOne" parameterType="com.ycz.pojo.Book">
+      update book_info
+      set name=#{name},author=#{author},publish=#{publish},ISBN=#{ISBN},
+      introduction=#{introduction},language=#{language},price=#{price},
+      pub_date=#{pubDate},class_id=#{classId},number=#{number}
+      where book_id=#{bookId}
+    </update>
 </mapper>

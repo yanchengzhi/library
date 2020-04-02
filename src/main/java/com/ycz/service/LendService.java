@@ -17,4 +17,12 @@ public interface LendService {
 
     List<Lend> queryAllLends(long readerId);
 
+    Lend queryLendSure(Map<String, Object> map);
+
+    void updateBackDate(Lend lend);
+
+    void addLend(Lend lend);
+
+    List<Lend> queryLends(long readerId);
+
 }

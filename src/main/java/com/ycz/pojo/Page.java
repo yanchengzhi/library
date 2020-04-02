@@ -13,8 +13,16 @@ public class Page<T> {
 	private int page;//页码
 	private int maxPage;//最大页码
 	private int totalSize;//总记录条数
+	private List<Lend> lends;//未归还的书籍ID结果集
 	
-	public List<T> getDatas() {
+    public List<Lend> getLends() {
+        return lends;
+    }
+    
+    public void setLends(List<Lend> lends) {
+        this.lends = lends;
+    }
+    public List<T> getDatas() {
 		return datas;
 	}
 	public void setDatas(List<T> datas) {

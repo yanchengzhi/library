@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ycz.pojo.Book;
+import com.ycz.pojo.Lend;
 
 public interface BookService {
 
@@ -21,5 +22,10 @@ public interface BookService {
 
     List<Book> queryAllBooks();
 
+    List<Lend> queryBookLends(long readerId);
+
+    void returnBook(Book book);
+
+    void lendBook(Book book);
 
 }

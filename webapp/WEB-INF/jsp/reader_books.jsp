@@ -79,15 +79,18 @@ $('#search').click(function(){
 //异步分页查询
 function queryPaged(pageNum){
 	var loadingIndex = null;
+	var id = "${currentUser.readerId}";
+	var readerId = Number(id);
 	var jsonData = {
 		"page":pageNum,
-		"pageSize":5
+		"pageSize":5,
+		"readerId":readerId
 	};
 	if(likeFlag==true){
 		jsonData.queryText = $('#queryText').val();
 	}
 	$.ajax({
-		url:"${APP_PATH}/book/queryBooksPaged",
+		url:"${APP_PATH}/book/queryBooksPaged2",
 	    type:"POST",
 	    data:jsonData,
 	    beforeSend:function(){
@@ -102,6 +105,13 @@ function queryPaged(pageNum){
 	    		//获取后台数据
 	    		var bookPage = result.data;
 	    	    var books = bookPage.datas;
+	    	    var lends = bookPage.lends;
+	    	    var bookPage = result.data;
+	    	    var num = bookPage.page;
+	    	    var lendArray = new Array();
+    	    	$.each(lends,function(j,lend){
+    	    		lendArray.unshift(lend.bookId);
+    	    	});
 	    	    if(books.length!=0){
 		    	    //遍历并拼接字符串
 		    	    $.each(books,function(i,book){
@@ -113,9 +123,18 @@ function queryPaged(pageNum){
 		    	    	tableContext+='<td>'+book.price+'</td>';
 		    	    	tableContext+='<td>'+book.number+'</td>';
 		    	    	tableContext+='<td>';
-		    	    	tableContext+='<a href=><button type="button" class="btn btn-danger btn-xs">归还</button></a>';
+		    	    	//判断未归还的书籍才可以点击归还按钮
+		    	    	if(lendArray.indexOf(book.bookId)>-1){
+		    	    		tableContext+='<a href="#"><button type="button" onclick="returnBook('+book.bookId+')" class="btn btn-danger btn-xs">归还</button></a>';
+		    	    	}else{
+		    	    		tableContext+='<a href="#"><button type="button" class="btn btn-danger btn-xs" disabled="disabled">归还</button></a>';
+		    	    	}
 		    	    	if(book.number>0){
-			    	    	tableContext+='&nbsp;&nbsp;&nbsp;<a href=><button type="button" class="btn btn-primary btn-xs">借阅</button></a>';
+		    	    		if(lendArray.indexOf(book.bookId)>-1){
+				    	    	tableContext+='&nbsp;&nbsp;&nbsp;<a href="#"><button type="button" class="btn btn-primary btn-xs" disabled="disabled">借阅</button></a>';
+		    	    		}else{
+				    	    	tableContext+='&nbsp;&nbsp;&nbsp;<a href="#"><button type="button" onclick="lendBook('+book.bookId+')" class="btn btn-primary btn-xs">借阅</button></a>';
+		    	    		}
 			    	    	tableContext+='</td>';
 		    	    	}else{
 			    	    	tableContext+='&nbsp;&nbsp;&nbsp;<a href=><button type="button" class="btn btn-primary btn-xs" disabled="disabled">已空</button></a>';
@@ -126,10 +145,6 @@ function queryPaged(pageNum){
 		    	    	tableContext+='</td>';
 						tableContext+='</tr>';
 		    	    });
-		    	    }else{
-		    	    	tableContext+='<tr>';
-		    	    	tableContext+='<td colspan="8" style="font-size:20px;font-weight:bold">没有任何借阅记录！</td>';
-		    	    	tableContext+='</tr>';
 		    	    }
 		    	    $('#bookData').html(tableContext);//添加到表主体中
 	    	    if(pageNum==1){
@@ -160,6 +175,52 @@ function queryPaged(pageNum){
 	    }
 	});
  }
+
+  function returnBook(bookId){
+	  $.ajax({
+		  url:"${APP_PATH}/book/returnBook",
+	      type:"POST",
+	      data:{
+	    	  "bookId":bookId,
+	    	  "readerId":"${currentUser.readerId}"
+	      },
+	      success:function(result){
+	    	  if(result){
+	    		  layer.msg("归还成功！",{time:3000,icon:6,shift:5},function(){
+	    		   
+	    		  });
+	    		  window.location.href="${APP_PATH}/reader/readerBooks";
+	    	  }else{
+	    		  layer.msg("归还失败！",{time:3000,icon:5,shift:5},function(){
+	    			  
+	    		  });
+	    	  }
+	      }
+	  });
+  }
+  
+  function lendBook(bookId){
+	  $.ajax({
+		  url:"${APP_PATH}/book/lendBook",
+	      type:"POST",
+	      data:{
+	    	  "bookId":bookId,
+	    	  "readerId":"${currentUser.readerId}"
+	      },
+	      success:function(result){
+	    	  if(result){
+	    		  layer.msg("借阅成功！",{time:3000,icon:6,shift:5},function(){
+	    			  
+	    		  });
+	    		  window.location.href="${APP_PATH}/reader/readerBooks";
+	    	  }else{
+	    		  layer.msg("借阅失败！",{time:3000,icon:5,shift:5},function(){
+	    			  
+	    		  });
+	    	  }
+	      }
+	  });
+  }
 </script>
 </body>
 </html>

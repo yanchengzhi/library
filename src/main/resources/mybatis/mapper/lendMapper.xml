@@ -38,4 +38,26 @@
     <select id="queryAllLends" resultType="com.ycz.pojo.Lend" parameterType="long">
       select book_id,lend_date,back_date from lend_list where reader_id=#{readerId}
     </select>
+    
+    <!-- 查询指定日志记录 -->
+    <select id="queryLendSure" resultType="com.ycz.pojo.Lend" parameterType="map">
+       select * from lend_list where book_id=#{bookId} and reader_id=#{readerId}
+       and back_date is null
+    </select>
+    
+    <!-- 更新指定日志记录 -->
+    <update id="updateBackDate" parameterType="com.ycz.pojo.Lend">
+       update lend_list 
+       set book_id=#{bookId},reader_id=#{readerId},lend_date=#{lendDate},back_date=#{backDate}
+       where ser_num=#{serNum}
+    </update>
+    
+    <insert id="addLend" parameterType="com.ycz.pojo.Lend">
+       insert into lend_list(book_id,reader_id,lend_date)
+       values(#{bookId},#{readerId},#{lendDate})
+    </insert>
+    
+    <select id="queryLends" resultType="com.ycz.pojo.Lend" parameterType="long">
+       select * from lend_list where reader_id=#{readerId}
+    </select>
 </mapper>

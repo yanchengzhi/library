@@ -70,4 +70,9 @@
 	   <error-code>404</error-code>
 	   <location>/WEB-INF/jsp/404.jsp</location>
 	</error-page>
+	
+	<!-- 设置session的生命周期，这里暂定为10分钟-->
+	<session-config>
+	   <session-timeout>1</session-timeout>
+	</session-config>
 </web-app>

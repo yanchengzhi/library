@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,10 +28,10 @@ import com.ycz.pojo.ReaderInfo;
 import com.ycz.pojo.ResultData;
 import com.ycz.service.BookService;
 import com.ycz.service.LendService;
+import com.ycz.service.LoginService;
 import com.ycz.service.ReaderService;
 
 /**
- * 
  * @ClassName ReaderController
  * @Description TODO(读者控制器)
  * @author Administrator
@@ -41,16 +43,18 @@ import com.ycz.service.ReaderService;
 public class ReaderController {
     
     @Autowired
+    private LoginService loginService;
+
+    @Autowired
     private ReaderService rService;
-    
+
     @Autowired
     private BookService bService;
-    
+
     @Autowired
     private LendService lService;
-    
+
     /**
-     * 
      * @Description (跳往管理读者界面)
      * @return
      */
@@ -58,9 +62,8 @@ public class ReaderController {
     public String adminReader() {
         return "admin_reader";
     }
-    
+
     /**
-     * 
      * @Description (分页查询读者)
      * @param queryText
      * @param page
@@ -69,29 +72,27 @@ public class ReaderController {
      */
     @ResponseBody
     @RequestMapping("queryReaderPaged")
-    public AjaxResult queryReaderPaged(
-            @RequestParam(value="queryText",required = false) String queryText,
-            @RequestParam(value="page",required = false,defaultValue = "1") Integer page,
-            @RequestParam(value="pageSize",required = false,defaultValue = "6") Integer pageSize
-            ) {
+    public AjaxResult queryReaderPaged(@RequestParam(value = "queryText", required = false) String queryText,
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "6") Integer pageSize) {
         AjaxResult result = new AjaxResult();
         try {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("start", (page - 1) * pageSize);
             map.put("size", pageSize);
-            map.put("queryText",queryText);
+            map.put("queryText", queryText);
             List<ReaderInfo> readers = rService.queryReadersPaged(map);
-            //获取总记录条数
+            // 获取总记录条数
             int totalSize = rService.countReaders(map);
-            //获取最大页码数
-            int maxPage = totalSize%pageSize==0?totalSize/pageSize:(totalSize/pageSize)+1;
-            //使用分页对象封装
+            // 获取最大页码数
+            int maxPage = totalSize % pageSize == 0 ? totalSize / pageSize : (totalSize / pageSize) + 1;
+            // 使用分页对象封装
             Page<ReaderInfo> readerPage = new Page<>();
             readerPage.setDatas(readers);
             readerPage.setTotalSize(totalSize);
             readerPage.setMaxPage(maxPage);
             readerPage.setPage(page);
-            //封装进result对象中，传给前端
+            // 封装进result对象中，传给前端
             result.setData(readerPage);
             result.setSuccess(true);
         } catch (Exception e) {
@@ -100,9 +101,8 @@ public class ReaderController {
         }
         return result;
     }
-    
+
     /**
-     * 
      * @Description (跳往读者编辑页面)
      * @param request
      * @return
@@ -111,15 +111,14 @@ public class ReaderController {
     public ModelAndView adminEditReader(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         Long readerId = Long.parseLong(request.getParameter("readerId"));
-        //按传的ID查询
+        // 按传的ID查询
         ReaderInfo reader = rService.queryReader(readerId);
-        mav.addObject("reader",reader);
+        mav.addObject("reader", reader);
         mav.setViewName("admin_edit_reader");
         return mav;
     }
-    
+
     /**
-     * 
      * @Description (修改读者信息)
      * @param birthStr
      * @param reader
@@ -136,15 +135,19 @@ public class ReaderController {
         AjaxResult result = new AjaxResult();
         try {
             rService.editReader(reader);
+            //如果姓名修改了，需要同时修改账号信息表中的姓名
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("readerId", reader.getReaderId());
+            map.put("username",reader.getName());
+            rService.editReaderCard(map);
             result.setSuccess(true);
         } catch (Exception e) {
             result.setSuccess(false);
         }
         return result;
     }
-    
+
     /**
-     * 
      * @Description (删除读者)
      * @param readerId
      * @return
@@ -158,14 +161,13 @@ public class ReaderController {
             rService.deleteReaderCard(readerId);
             result.setSuccess(true);
         } catch (Exception e) {
-           e.printStackTrace();
-           result.setSuccess(false);
+            e.printStackTrace();
+            result.setSuccess(false);
         }
         return result;
     }
-    
+
     /**
-     * 
      * @Description (跳往读者添加页面)
      * @return
      */
@@ -173,10 +175,10 @@ public class ReaderController {
     public String adminReaderAdd() {
         return "admin_reader_add";
     }
-    
+
     @ResponseBody
     @RequestMapping("addReaderInfo")
-    public AjaxResult addReaderInfo(String password,String birthStr,ReaderInfo reader) {
+    public AjaxResult addReaderInfo(String password, String birthStr, ReaderInfo reader) {
         try {
             reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(birthStr));
         } catch (ParseException e1) {
@@ -196,9 +198,8 @@ public class ReaderController {
         }
         return result;
     }
-    
+
     /**
-     * 
      * @Description (跳往读者书籍页面)
      * @return
      */
@@ -208,9 +209,8 @@ public class ReaderController {
         mav.setViewName("reader_books");
         return mav;
     }
-    
+
     /**
-     * 
      * @Description (分页查询指定读者借阅的书籍)
      * @param page
      * @param pageSize
@@ -219,25 +219,25 @@ public class ReaderController {
      */
     @ResponseBody
     @RequestMapping("queryLend")
-    public AjaxResult queryLendPaged(
-            @RequestParam(value="readerId",required = true) long readerId
-            ) {
+    public AjaxResult queryLendPaged(@RequestParam(value = "readerId", required = true) long readerId) {
         AjaxResult result = new AjaxResult();
         try {
-            //查出所有书籍
+            // 查出所有书籍
             List<Book> books = bService.queryAllBooks();
-            //查出读者对应借阅的所有书籍id
+            // 查出读者对应借阅的所有书籍id
             List<Long> bookIds = lService.queryAllBookId(readerId);
-            //查出读者对应的所有借还记录
+            Set<Long> bookIds2 = new HashSet<>();
+            bookIds2.addAll(bookIds);
+            // 查出读者对应的所有借还记录
             List<Lend> lends = lService.queryAllLends(readerId);
-            //用于封装
+            // 用于封装
             List<ResultData> datas = new ArrayList<>();
-            for(Book b:books) {
-                for(long bookId:bookIds) {
-                    for(Lend l:lends) {
-                        if(b.getBookId()==bookId && l.getBookId()==bookId) {
+            for (Long id : bookIds2) {
+                for (Lend l : lends) {
+                    for (Book b : books) {
+                        if (id == l.getBookId() && id == b.getBookId()) {
                             ResultData data = new ResultData();
-                            data.setBookId(bookId);
+                            data.setBookId(b.getBookId());
                             data.setName(b.getName());
                             data.setLendDateStr(l.getLendDateStr());
                             data.setBackDateStr(l.getBackDateStr());
@@ -254,9 +254,8 @@ public class ReaderController {
         }
         return result;
     }
-    
+
     /**
-     * 
      * @Description (查询读者信息)
      * @param readerId
      * @return
@@ -265,13 +264,12 @@ public class ReaderController {
     public ModelAndView readerInfo(long readerId) {
         ModelAndView mav = new ModelAndView();
         ReaderInfo reader = rService.queryReader(readerId);
-        mav.addObject("currentReader",reader);
+        mav.addObject("currentReader", reader);
         mav.setViewName("reader_info");
         return mav;
     }
-    
+
     /**
-     * 
      * @Description (跳往读者修改页面)
      * @return
      */
@@ -279,11 +277,11 @@ public class ReaderController {
     public ModelAndView readerEditSelf(long readerId) {
         ModelAndView mav = new ModelAndView();
         ReaderInfo reader = rService.queryReader(readerId);
-        mav.addObject("currentReader",reader);
+        mav.addObject("currentReader", reader);
         mav.setViewName("reader_info_edit");
         return mav;
     }
-    
+
     @RequestMapping("readerBookDetail")
     public ModelAndView readerBookDetail(HttpServletRequest request) {
         // 获取要查询书籍的ID
@@ -293,6 +291,30 @@ public class ReaderController {
         mav.addObject("book", book);
         mav.setViewName("reader_book_detail");
         return mav;
+    }
+    
+    /**
+     * 
+     * @Description (跳往密码修改页面)
+     * @return
+     */
+    @RequestMapping("readerRePass")
+    public String readerRePass() {
+        return "reader_repass";
+    }
+    
+    @ResponseBody
+    @RequestMapping("repassDo")
+    public AjaxResult repassDo(long readerId,String password) {
+        AjaxResult result = new AjaxResult();
+        try {
+            loginService.reReaderPass(readerId, password);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+        return result;
     }
 
 }

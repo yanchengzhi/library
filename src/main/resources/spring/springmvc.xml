@@ -22,6 +22,20 @@
     <!-- 静态资源放行 -->
     <mvc:default-servlet-handler/>
     
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+       <!-- 登录拦截器 -->
+       <mvc:interceptor>
+           <!-- 配置拦截路径 -->
+           <mvc:mapping path="/**"/>
+           <!-- 配置放行的路径 -->
+           <mvc:exclude-mapping path="/static/*"/>
+           <mvc:exclude-mapping path="/login/login*"/>
+           <mvc:exclude-mapping path="/login/loginCheck*"/>
+           <bean class="com.ycz.web.LoginInterceptor"></bean>
+       </mvc:interceptor>
+    </mvc:interceptors>
+    
     <!-- 配置内部资源视图解析器 -->
     <bean id="irvr" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
        <property name="prefix" value="/WEB-INF/jsp/"></property>

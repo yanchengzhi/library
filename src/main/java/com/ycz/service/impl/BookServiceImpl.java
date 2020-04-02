@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ycz.dao.BookDao;
 import com.ycz.pojo.Book;
+import com.ycz.pojo.Lend;
 import com.ycz.service.BookService;
 
 @Service
@@ -49,6 +50,21 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> queryAllBooks() {
         return bDao.queryAllBooks();
+    }
+
+    @Override
+    public List<Lend> queryBookLends(long readerId) {
+        return bDao.queryBookLends(readerId);
+    }
+
+    @Override
+    public void returnBook(Book book) {
+         bDao.returnBook(book);
+    }
+
+    @Override
+    public void lendBook(Book book) {
+        bDao.lendBook(book);
     }
     
 

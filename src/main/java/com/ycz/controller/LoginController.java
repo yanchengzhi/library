@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,8 +58,9 @@ public class LoginController {
      * @return
      */
     @RequestMapping("logout")
-    public String logout() {
-        return "login";
+    public String logout(HttpSession session) {
+        session.invalidate();//使session失效
+        return "redirect:login";//并且重定向到登录页面
     }
     
     /**

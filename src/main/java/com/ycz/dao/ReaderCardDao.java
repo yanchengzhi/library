@@ -35,14 +35,14 @@ public class ReaderCardDao {
 
     public int reReaderPass(long readerId, String password) {
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("reader_id", readerId);
+        map.put("readerId", readerId);
         map.put("password",password);
         return sst.update("readerCard.resetPassword",map);
     }
 
     public int addReaderCard(ReaderInfo rInfo, String password) {
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("reader_id", rInfo.getReaderId());
+        map.put("readerId", rInfo.getReaderId());
         map.put("username",rInfo.getName());
         map.put("password",password);
         return sst.insert("readerCard.addReaderCard",map);
@@ -50,6 +50,10 @@ public class ReaderCardDao {
 
     public int deleteReaderCard(long readerId) {
         return sst.delete("readerCard.deleteReaderCard",readerId);
+    }
+
+    public void editReaderCard(Map<String, Object> map) {
+        sst.update("readerCard.editReaderCard",map);
     }
 
 }

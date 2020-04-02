@@ -9,10 +9,10 @@
 		</div>
 		<div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
-				<li class="active"><a href="${APP_PATH}/reader/readerBooks"> 图书查询 </a></li>
+				<li><a href="${APP_PATH}/reader/readerBooks"> 图书查询 </a></li>
 				<li><a href="${APP_PATH}/reader/readerInfo?readerId=${currentUser.readerId}"> 个人信息 </a></li>
 				<li><a href="${APP_PATH}/lend/readerLendList?readerId=${currentUser.readerId}"> 我的借还 </a></li>
-				<li><a href="reader_repasswd.html"> 密码修改 </a></li>
+				<li><a href="${APP_PATH}/reader/readerRePass"> 密码修改 </a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 			<c:if test="${empty currentUser.username}">
@@ -26,3 +26,14 @@
 		</div>
 	</div>
 </nav>
+<script type="text/javascript">
+ $(document).ready(function(){
+	$(".nav li a").each(function(){
+	$this = $(this);
+	if($this[0].href==String(window.location)){
+	$(".nav li").removeClass("active");
+	$this.parent().addClass("active"); //active表示被选中效果的类名
+	}
+   });
+  });;
+</script>

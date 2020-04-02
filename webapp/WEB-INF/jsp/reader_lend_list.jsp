@@ -59,7 +59,9 @@ function querymyLend(){
 	    		var tableContext="";
 	    		//获取后台数据
 	    	    var datas = result.data;
+	    		var size = "${len}";
 	    	    //遍历并拼接字符串
+	    	    if(size!=0){
 	    	    $.each(datas,function(i,data){
 	    	    	tableContext+='<tr>';
 	    	    	tableContext+='<td>'+data.bookId+'</td>';
@@ -73,6 +75,9 @@ function querymyLend(){
 	    	    	}
 					tableContext+='</tr>';
 	    	    });
+	    	    }else{
+	    	    	tableContext+='<tr><td colspan="5" style="font-size:20px;font-weight:bold;">没有任何记录！</td></tr>';
+	    	    }
 	    	    $('#bookData').html(tableContext);//添加到表主体中
 	    	}else{
 	    	   layer.msg("查询失败！",{time:3000,icon:5,shift:5},function(){

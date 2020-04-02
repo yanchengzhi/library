@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ycz.pojo.Book;
+import com.ycz.pojo.Lend;
 
 @Repository
 public class BookDao {
@@ -41,6 +42,18 @@ public class BookDao {
 
     public List<Book> queryAllBooks() {
         return sst.selectList("books.queryAllBooks");
+    }
+
+    public List<Lend> queryBookLends(long readerId) {
+        return sst.selectList("books.queryBookLends",readerId);
+    }
+
+    public void returnBook(Book book) {
+        sst.update("books.bookNumAddOne",book);
+    }
+
+    public void lendBook(Book book) {
+        sst.update("books.bookNumAddOne",book);
     }
 
 }

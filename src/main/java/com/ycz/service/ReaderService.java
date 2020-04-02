@@ -25,5 +25,7 @@ public interface ReaderService {
 
     void deleteReaderCard(long readerId);
 
+    void editReaderCard(Map<String, Object> map);
+
 
 }

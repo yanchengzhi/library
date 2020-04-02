@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ycz.pojo.AjaxResult;
 import com.ycz.pojo.Lend;
 import com.ycz.pojo.Page;
+import com.ycz.service.BookService;
 import com.ycz.service.LendService;
 
 /**
@@ -30,6 +33,9 @@ public class LendController {
     
     @Autowired
     private LendService lService;
+    
+    @Autowired
+    private BookService bService;
     
     /**
      * 
@@ -104,9 +110,14 @@ public class LendController {
     }
     
     @RequestMapping("readerLendList")
-    public ModelAndView readerLendList(long readerId) {
+    public ModelAndView readerLendList(HttpServletRequest request) {
+        Long readerId = Long.parseLong(request.getParameter("readerId"));
         ModelAndView mav = new ModelAndView();
         mav.addObject("readerId",readerId);
+        //获取读者未归还书籍的日志
+        List<Lend> lends = lService.queryLends(readerId);
+        int len = lends.size(); 
+        mav.addObject("len",len);
         mav.setViewName("reader_lend_list");
         return mav;
     }

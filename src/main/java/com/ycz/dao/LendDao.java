@@ -36,4 +36,20 @@ public class LendDao {
         return sst.selectList("lends.queryAllLends",readerId);
     }
 
+    public Lend queryLendSure(Map<String, Object> map) {
+        return sst.selectOne("lends.queryLendSure",map);
+    }
+
+    public void updateBackDate(Lend lend) {
+        sst.update("lends.updateBackDate",lend);
+    }
+
+    public void addLend(Lend lend) {
+        sst.insert("lends.addLend",lend);
+    }
+
+    public List<Lend> queryLends(long readerId) {
+        return sst.selectList("lends.queryLends",readerId);
+    }
+
 }

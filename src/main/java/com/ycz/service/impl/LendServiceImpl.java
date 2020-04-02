@@ -41,5 +41,25 @@ public class LendServiceImpl implements LendService {
         return lDao.queryAllLends(readerId);
     }
 
+    @Override
+    public Lend queryLendSure(Map<String, Object> map) {
+        return lDao.queryLendSure(map);
+    }
+
+    @Override
+    public void updateBackDate(Lend lend) {
+        lDao.updateBackDate(lend);
+    }
+
+    @Override
+    public void addLend(Lend lend) {
+        lDao.addLend(lend);
+    }
+
+    @Override
+    public List<Lend> queryLends(long readerId) {
+        return lDao.queryLends(readerId);
+    }
+
 
 }

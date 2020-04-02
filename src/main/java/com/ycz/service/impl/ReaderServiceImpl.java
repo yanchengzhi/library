@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ycz.dao.ReaderCardDao;
 import com.ycz.dao.ReaderDao;
 import com.ycz.pojo.Book;
 import com.ycz.pojo.ReaderCard;
@@ -17,6 +18,9 @@ public class ReaderServiceImpl implements ReaderService {
     
     @Autowired
     private ReaderDao rDao;
+    
+    @Autowired
+    private ReaderCardDao rcDao;
 
     @Override
     public List<ReaderInfo> queryReadersPaged(Map<String, Object> map) {
@@ -56,6 +60,11 @@ public class ReaderServiceImpl implements ReaderService {
     @Override
     public void deleteReaderCard(long readerId) {
         rDao.deleteReaderCard(readerId);
+    }
+
+    @Override
+    public void editReaderCard(Map<String, Object> map) {
+        rcDao.editReaderCard(map);
     }
 
 }
