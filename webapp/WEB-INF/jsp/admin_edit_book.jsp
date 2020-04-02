@@ -71,7 +71,7 @@ background-attachment: fixed;">
     <script>
         $(function(){
             $('#edit_btn').click(function(){
-            	var id = ${book.bookId};
+            	var id = "${book.bookId}";
             	var bookId = Number(id);
             	var name = $('#name').val();
             	var author = $('#author').val();
