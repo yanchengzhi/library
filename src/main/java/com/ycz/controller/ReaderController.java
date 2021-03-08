@@ -92,7 +92,7 @@ public class ReaderController {
             readerPage.setTotalSize(totalSize);
             readerPage.setMaxPage(maxPage);
             readerPage.setPage(page);
-            // 封装进result对象中，传给前端
+            // 封装进result对象，传给前端
             result.setData(readerPage);
             result.setSuccess(true);
         } catch (Exception e) {
